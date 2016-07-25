@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>序列化</title>
+</head>
+<body>
+	<script type="text/javascript">
+		var o1={x:1};
+		var o2=new Object();
+		var person={
+			name:"chenyixun",
+			friends:["chen","yi","xun"],
+			year:NaN,					//NaN序列化为null
+			time:Infinity,				//Infinity序列化为null
+			releaseDate:new Date(2011,11,1),		//Date对象序列化为JSON字符串
+			one:{
+				age:10,
+				toJSON:function(){
+					return undefined;
+				}             //执行toJSON，age:10被忽略，toJSON返回undefined，表示one属性被忽略
+			},
+			two:{
+				age:10,
+				toJSON:function(){
+					return 1;
+				}       		//执行toJSON，age:10被忽略，toJSON返回1，表示two:1
+			},
+			three:{
+				age:function(){
+					return 1;
+				},			//函数被忽略,只剩下three:{sex:10}
+				sex:10      
+			},
+			four:o1,
+			five:o2,
+			// toJSON:function(){
+			// 	return this.name;
+			// }		   
+		};
+		var anotherman=JSON.stringify(person,null,1);     //三个参数
+		var man=JSON.parse(anotherman);
+		alert(anotherman);
+		alert(man);
+	</script>
+</body>
+</html>
